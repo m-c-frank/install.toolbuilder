@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # Define necessary variables.
-REPO_URL="https://github.com/m-c-frank/toolbuilder.git"
+REPO_NAME="toolbuilder"
+REPO_URL="https://github.com/m-c-frank/$REPO_NAME.git"
 INSTALL_PATH="$HOME/.local/bin"
-BINARY_NAME="toolbuilder"
+CLONE_PATH="./$REPO_NAME"
+
 
 # Update package database and install Git and Go if they are not already installed
 if ! command -v git &>/dev/null; then
@@ -17,26 +19,29 @@ if ! command -v go &>/dev/null; then
 fi
 
 # Clone the ToolBuilder repository.
-git clone "$REPO_URL" "$HOME/toolbuilder-repo"
+git clone "$REPO_URL" "./"
 
 # Change to the repository directory.
 cd "$HOME/toolbuilder-repo" || exit
 
 # Compile the Go source code.
-go build -o "$BINARY_NAME" toolbuilder.go
+go build -o "$REPO_NAME" toolbuilder.go
 
 # Make the directory if it doesn't exist.
 mkdir -p "$INSTALL_PATH"
 
 # Install the binary.
-mv "$BINARY_NAME" "$INSTALL_PATH"
+mv "$REPO_NAME" "$INSTALL_PATH"
 
 # Clean up the repository directory.
-rm -rf "$HOME/toolbuilder-repo"
+if [[ -d "$HOME/toolbuilder-repo" ]]; then
+    rm -rf "$HOME/toolbuilder-repo"
+fi
 
 # Add the install path to the PATH if it's not already there.
 if [[ ":$PATH:" != *":$INSTALL_PATH:"* ]]; then
-    echo "export PATH=\$PATH:$INSTALL_PATH" >> "$HOME/.bashrc"
+    echo "export PATH=\$PATH:$INSTALL_PATH" >> "$HOME/.profile"
+    source "$HOME/.profile"
 fi
 
 echo "ToolBuilder installed successfully."
