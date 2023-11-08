@@ -19,7 +19,7 @@ if ! command -v go &>/dev/null; then
 fi
 
 # Clone the ToolBuilder repository.
-git clone "$REPO_URL" "./"
+git clone "$REPO_URL" "$CLONE_PATH" 
 
 # Change to the repository directory.
 cd "$CLONE_PATH" || exit
