@@ -22,7 +22,7 @@ fi
 git clone "$REPO_URL" "./"
 
 # Change to the repository directory.
-cd "$HOME/toolbuilder-repo" || exit
+cd "$CLONE_PATH" || exit
 
 # Compile the Go source code.
 go build -o "$REPO_NAME" toolbuilder.go
@@ -34,14 +34,8 @@ mkdir -p "$INSTALL_PATH"
 mv "$REPO_NAME" "$INSTALL_PATH"
 
 # Clean up the repository directory.
-if [[ -d "$HOME/toolbuilder-repo" ]]; then
-    rm -rf "$HOME/toolbuilder-repo"
-fi
-
-# Add the install path to the PATH if it's not already there.
-if [[ ":$PATH:" != *":$INSTALL_PATH:"* ]]; then
-    echo "export PATH=\$PATH:$INSTALL_PATH" >> "$HOME/.profile"
-    source "$HOME/.profile"
+if [[ -d "$CLONE_PATH" ]]; then
+    rm -rf "$CLONE_PATH"
 fi
 
 echo "ToolBuilder installed successfully."
