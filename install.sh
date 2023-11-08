@@ -4,7 +4,7 @@
 REPO_NAME="toolbuilder"
 REPO_URL="https://github.com/m-c-frank/$REPO_NAME.git"
 INSTALL_PATH="$HOME/.local/bin"
-CLONE_PATH="$HOME/$REPO_NAME"
+CLONE_PATH=",/$REPO_NAME"
 
 # Update package database and install Git and Go if they are not already installed
 if ! command -v git &>/dev/null; then
